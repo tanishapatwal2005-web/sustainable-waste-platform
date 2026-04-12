@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Atom Economy Calculator{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Heading -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-warning">⚗️ Atom Economy Calculator</h2>
+        <p class="text-muted">Evaluate efficiency of chemical reactions using green chemistry principles</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <!-- Form Card -->
+            <div class="card p-4 shadow-sm mb-4">
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Total Weight of Reactants (g)</label>
+                        <input type="number" step="0.01" name="reactants_weight" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Desired Product Weight (g)</label>
+                        <input type="number" step="0.01" name="products_weight" class="form-control" required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning btn-lg">
+                            Calculate
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Result Card -->
+            {% if result %}
+            <div class="card p-4 shadow-sm text-center border-{{ result.efficiency_color }}">
+                
+                <h4 class="mb-3">Result</h4>
+
+                <h2 class="fw-bold text-{{ result.efficiency_color }}">
+                    {{ result.atom_economy }}%
+                </h2>
+
+                <p class="mb-2">
+                    Efficiency: 
+                    <span class="badge bg-{{ result.efficiency_color }}">
+                        {{ result.efficiency_rating }}
+                    </span>
+                </p>
+
+                <p class="text-muted">{{ result.message }}</p>
+
+                <hr>
+
+                <p>
+                    Waste Produced: 
+                    <strong>{{ result.waste_percentage }}%</strong>
+                </p>
+
+                <!-- Progress Bar -->
+                <div class="progress mt-3" style="height: 20px;">
+                    <div class="progress-bar bg-{{ result.efficiency_color }}" 
+                         role="progressbar" 
+                         style="width: {{ result.atom_economy }}%">
+                        {{ result.atom_economy }}%
+                    </div>
+                </div>
+
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- Info Section -->
+    <div class="card p-4 mt-4 shadow-sm">
+        <h5>What is Atom Economy?</h5>
+        <p class="text-muted">
+            Atom economy measures how efficiently reactants are converted into useful products.
+            Higher atom economy means less waste and more sustainable chemical processes.
+        </p>
+
+        <ul>
+            <li>90%+ → Excellent (Green Chemistry Ideal)</li>
+            <li>70–89% → Good</li>
+            <li>50–69% → Average</li>
+            <li>Below 50% → Poor (High waste)</li>
+        </ul>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        border-radius: 15px;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        border: none;
+    }
+
+    .btn-warning:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .progress {
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}

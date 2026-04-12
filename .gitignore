@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.env
+
+# ML model
+model/*.h5
+
+# system
+.vscode/
+*.log

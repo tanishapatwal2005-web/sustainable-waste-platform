@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}500 - Server Error{% endblock %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh; position: relative;">
+
+    <!-- Floating Eco Icons -->
+    <div class="eco-icons">
+        <i class="fas fa-leaf" style="top:10%; left:15%;"></i>
+        <i class="fas fa-recycle" style="top:30%; right:10%;"></i>
+        <i class="fas fa-seedling" style="bottom:15%; left:25%;"></i>
+    </div>
+
+    <div class="text-center">
+        
+        <!-- Error Code -->
+        <h1 class="display-1 fw-bold text-danger">500</h1>
+        
+        <!-- Message -->
+        <h3 class="mb-3">Internal Server Error</h3>
+        <p class="text-muted mb-4">
+            Oops! Something went wrong on our side.  
+            We're working to fix it 🌱
+        </p>
+
+        <!-- Icon -->
+        <div class="mb-4">
+            <i class="fas fa-server fa-4x text-danger"></i>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('index') }}" class="btn btn-success">
+                <i class="fas fa-home me-2"></i> Go Home
+            </a>
+            
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-success">
+                <i class="fas fa-chart-line me-2"></i> Dashboard
+            </a>
+        </div>
+
+        <!-- Extra Help -->
+        <p class="mt-4 text-muted small">
+            Please try again later or contact support if the issue continues.
+        </p>
+
+    </div>
+</div>
+{% endblock %}

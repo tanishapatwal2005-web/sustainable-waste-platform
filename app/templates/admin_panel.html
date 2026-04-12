@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel - Sustainable Waste Platform{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Heading -->
+    <div class="mb-4">
+        <h2 class="fw-bold text-danger">👑 Admin Panel</h2>
+        <p class="text-muted">Manage platform data and monitor system performance</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+            <div class="card stat-card text-center">
+                <h3 id="totalUsers">0</h3>
+                <p class="text-muted">Total Users</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card text-center">
+                <h3 id="pendingTutorials">0</h3>
+                <p class="text-muted">Pending Tutorials</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card text-center">
+                <h3 id="totalWaste">0 kg</h3>
+                <p class="text-muted">Total Waste Logged</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card text-center">
+                <h3 id="totalPoints">0</h3>
+                <p class="text-muted">Total Points</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm">
+                <h5>User Growth</h5>
+                <canvas id="userChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm">
+                <h5>Waste Overview</h5>
+                <canvas id="wasteChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="card p-4 shadow-sm">
+        <h5 class="mb-3">Admin Actions</h5>
+
+        <div class="d-flex flex-wrap gap-3">
+            <a href="{{ url_for('moderation') }}" class="btn btn-warning">
+                Moderate Tutorials
+            </a>
+            <a href="{{ url_for('leaderboard') }}" class="btn btn-success">
+                View Leaderboard
+            </a>
+            <a href="{{ url_for('reports') }}" class="btn btn-primary">
+                Generate Reports
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Fetch stats from backend
+    fetch("/api/admin/stats")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalUsers").innerText = data.total_users;
+            document.getElementById("pendingTutorials").innerText = data.pending_tutorials;
+            document.getElementById("totalWaste").innerText = data.total_waste + " kg";
+            document.getElementById("totalPoints").innerText = data.total_points;
+        });
+
+    // User Growth Chart
+    const userCtx = document.getElementById('userChart').getContext('2d');
+    new Chart(userCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{
+                label: 'Users',
+                data: [10, 30, 50, 80, 120]
+            }]
+        }
+    });
+
+    // Waste Chart
+    const wasteCtx = document.getElementById('wasteChart').getContext('2d');
+    new Chart(wasteCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Plastic', 'Paper', 'Glass', 'Metal'],
+            datasets: [{
+                data: [40, 25, 20, 15]
+            }]
+        }
+    });
+</script>
+
+<style>
+    .stat-card {
+        padding: 20px;
+        border-radius: 15px;
+        background: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: 0.3s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    canvas {
+        max-height: 300px;
+    }
+</style>
+{% endblock %}

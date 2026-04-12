@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Tutorial{% endblock %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">📤 Upload Tutorial</h1>
+        <p class="text-muted">Share your waste-to-craft idea</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="eco-card">
+
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">YouTube Video URL</label>
+                        <input type="text" name="video_url" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control"></textarea>
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        🚀 Submit for Approval
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}

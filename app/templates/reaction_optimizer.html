@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Reaction Optimizer{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">AI Reaction Optimizer</h2>
+        <p class="text-muted">Improve chemical reaction efficiency using smart suggestions</p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- FORM -->
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Reaction Type</label>
+                        <select name="reaction_type" class="form-select" required>
+                            <option value="">Select Reaction</option>
+                            <option value="esterification">Esterification</option>
+                            <option value="oxidation">Oxidation</option>
+                            <option value="reduction">Reduction</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Current Yield (%)</label>
+                        <input type="number" step="0.1" name="current_yield"
+                            class="form-control" placeholder="Enter current yield" required>
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        Optimize Reaction
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- RESULT -->
+        <div class="col-lg-7">
+
+            {% if optimization %}
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <h4 class="text-success mb-3">Optimization Results</h4>
+
+                <div class="row text-center mb-4">
+
+                    <div class="col-md-4">
+                        <h5>{{ optimization.current_yield }}%</h5>
+                        <small>Current Yield</small>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h5>{{ optimization.improved_yield }}%</h5>
+                        <small>Optimized Yield</small>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h5 class="text-success">+{{ optimization.improvement }}%</h5>
+                        <small>Improvement</small>
+                    </div>
+
+                </div>
+
+                <!-- Suggestions -->
+                <h5>AI Suggestions:</h5>
+
+                <ul class="list-group mb-3">
+                    {% for s in optimization.suggestions %}
+                    <li class="list-group-item">
+                        ✅ {{ s }}
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <!-- Progress Bar -->
+                <div class="mb-2">
+                    <small>Efficiency Progress</small>
+                    <div class="progress">
+                        <div class="progress-bar bg-success"
+                            style="width: {{ optimization.improved_yield }}%">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {% else %}
+            <div class="card shadow-lg border-0 rounded-4 p-5 text-center text-muted">
+                <h5>No optimization yet</h5>
+                <p>Enter details to get AI suggestions</p>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+<style>
+.card {
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>

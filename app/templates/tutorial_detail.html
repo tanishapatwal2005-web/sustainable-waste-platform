@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Tutorial{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="fw-bold">{{ tutorial.title }}</h2>
+
+    <span class="badge bg-success mb-3">
+        {{ tutorial.category }}
+    </span>
+
+    <p class="text-muted">
+        👁 {{ tutorial.views if tutorial.views else 0 }} views
+    </p>
+
+    <hr>
+
+    <div>
+        {{ tutorial.content }}
+    </div>
+
+    <a href="{{ url_for('tutorials') }}" class="btn btn-outline-secondary mt-4">
+        ← Back to Tutorials
+    </a>
+
+</div>
+
+{% endblock %}

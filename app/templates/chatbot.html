@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<!-- CHAT BOX -->
+<div class="chat-container" id="chatContainer">
+
+    <div class="chat-header">
+        🤖 Eco AI
+        <span onclick="toggleChat()">✖</span>
+    </div>
+
+    <div class="chat-body" id="chatBox">
+
+        <div class="message bot">
+            👋 Hi! Ask me anything about waste.
+        </div>
+
+        <div class="quick-questions">
+            <button onclick="sendQuick('How to recycle plastic?')">♻️ Plastic</button>
+            <button onclick="sendQuick('How to recycle glass?')">🍾 Glass</button>
+            <button onclick="sendQuick('How to recycle metal?')">🔩 Metal</button>
+            <button onclick="sendQuick('How to recycle paper?')">📄 Paper</button>
+            <button onclick="sendQuick('Reduce waste tips')">🌱 Waste</button>
+            <button onclick="sendQuick('What is composting?')">🌿 Compost</button>
+        </div>
+
+    </div>
+
+    <div class="chat-footer">
+        <input type="text" id="userInput" placeholder="Ask something...">
+        <button onclick="sendMessage()">➤</button>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+
+// TOGGLE
+function toggleChat() {
+    let chat = document.getElementById("chatContainer");
+    chat.style.display = (chat.style.display === "flex") ? "none" : "flex";
+}
+
+// ADD MESSAGE
+function addMessage(sender, text) {
+    let chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML += `<div class="message ${sender}">${text}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// SEND INPUT
+function sendMessage() {
+    let input = document.getElementById("userInput");
+    let message = input.value.trim();
+    if (!message) return;
+
+    addMessage("user", message);
+
+    fetch("/chatbot", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message: message })
+    })
+    .then(res => res.json())
+    .then(data => {
+        addMessage("bot", data.response);
+    });
+
+    input.value = "";
+}
+
+// QUICK BUTTON FIX (IMPORTANT)
+function sendQuick(text) {
+    addMessage("user", text);
+
+    fetch("/chatbot", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message: text })
+    })
+    .then(res => res.json())
+    .then(data => {
+        addMessage("bot", data.response);
+    });
+}
+
+</script>
+
+{% endblock %}

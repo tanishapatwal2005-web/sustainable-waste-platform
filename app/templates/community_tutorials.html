@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Community Tutorials{% endblock %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <!-- Heading -->
+    <div class="text-center mb-5" data-aos="fade-up">
+        <h1 class="fw-bold display-5">
+            🌍 Community <span class="text-success">Creations</span>
+        </h1>
+        <p class="text-muted">
+            Explore waste-to-craft ideas shared by users
+        </p>
+    </div>
+
+    <!-- Cards -->
+    <div class="row g-4">
+
+        {% for t in tutorials %}
+        <div class="col-md-4" data-aos="zoom-in">
+            <div class="eco-card h-100">
+
+                <h5 class="fw-bold">{{ t.title }}</h5>
+                <p class="text-muted small">
+                    By {{ t.username }}
+                </p>
+
+                <iframe class="w-100 rounded"
+                        height="200"
+                        src="{{ t.video_url | replace('watch?v=', 'embed/') }}"
+                        frameborder="0"
+                        allowfullscreen>
+                </iframe>
+
+                <p class="mt-2">{{ t.description }}</p>
+
+                <span class="badge bg-success">
+                    ⭐ {{ t.points }} Points
+                </span>
+
+            </div>
+        </div>
+        {% else %}
+        <p class="text-center text-muted">
+            No tutorials approved yet 😢
+        </p>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

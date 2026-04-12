@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Sustainability Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">🌍 Sustainability Dashboard</h2>
+        <p class="text-muted">Track your environmental impact in real-time</p>
+    </div>
+
+    <!-- Top Stats -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-3">
+            <div class="card eco-card text-center p-4">
+                <h6>Total Waste</h6>
+                <h2 class="text-success">{{ stats.total_waste_recycled }} kg</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card eco-card text-center p-4">
+                <h6>CO₂ Saved</h6>
+                <h2 class="text-success">{{ stats.co2_saved }} kg</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card eco-card text-center p-4">
+                <h6>Points</h6>
+                <h2 class="text-success">{{ stats.points_earned }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card eco-card text-center p-4">
+                <h6>Eco Level</h6>
+                <h2 class="text-success">
+                    {% if stats.points_earned > 500 %} 🌱 Expert
+                    {% elif stats.points_earned > 200 %} 🌿 Intermediate
+                    {% else %} 🌼 Beginner
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4">
+
+        <!-- Waste Chart -->
+        <div class="col-md-6">
+            <div class="card eco-card p-4">
+                <h5>♻️ Waste Distribution</h5>
+                <canvas id="wasteChart"></canvas>
+            </div>
+        </div>
+
+        <!-- CO2 Chart -->
+        <div class="col-md-6">
+            <div class="card eco-card p-4">
+                <h5>💨 CO₂ Savings Trend</h5>
+                <canvas id="co2Chart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Progress Section -->
+    <div class="card eco-card mt-5 p-4">
+        <h5>📊 Sustainability Progress</h5>
+
+        {% set target = 500 %}
+        {% set progress = (stats.points_earned / target) * 100 %}
+
+        <div class="progress" style="height: 25px;">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                 style="width: {{ progress }}%">
+                {{ stats.points_earned }}/{{ target }}
+            </div>
+        </div>
+
+        <small class="text-muted">Reach 500 points to become 🌱 Expert</small>
+    </div>
+
+    <!-- Recent Activities -->
+    <div class="card eco-card mt-5 p-4">
+        <h5>⚡ Recent Activities</h5>
+
+        {% if stats.recent_activities %}
+            <ul class="list-group list-group-flush">
+                {% for act in stats.recent_activities %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ act.activity_type }}</span>
+                        <span class="text-success">+{{ act.points_earned }} pts</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">No recent activity</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Waste Chart
+    const wasteCtx = document.getElementById('wasteChart');
+
+    new Chart(wasteCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Plastic', 'Paper', 'Glass', 'Metal', 'Organic'],
+            datasets: [{
+                data: [30, 20, 15, 10, 25]
+            }]
+        }
+    });
+
+    // CO2 Chart
+    const co2Ctx = document.getElementById('co2Chart');
+
+    new Chart(co2Ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{
+                label: 'CO₂ Saved',
+                data: [5, 10, 15, 25, 40],
+                fill: true
+            }]
+        }
+    });
+</script>
+
+<style>
+.eco-card {
+    border-radius: 20px;
+    transition: 0.3s;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.eco-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(16,185,129,0.2);
+}
+</style>
+
+{% endblock %}

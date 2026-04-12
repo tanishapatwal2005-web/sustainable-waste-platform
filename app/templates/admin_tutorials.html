@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Review Tutorials{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-warning">
+            🛡️ Admin Panel - Review Tutorials
+        </h2>
+        <p class="text-muted">Approve user-submitted tutorials</p>
+    </div>
+
+    {% if tutorials %}
+    <div class="row g-4">
+
+        {% for t in tutorials %}
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <h5 class="fw-bold">{{ t.title }}</h5>
+                <p class="text-muted">By {{ t.user }}</p>
+
+                <!-- FIXED YOUTUBE EMBED -->
+                <iframe class="w-100 rounded"
+                    height="200"
+                    src="https://www.youtube.com/embed/{{ t.video.split('v=')[-1].split('&')[0] }}"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+
+                <div class="mt-3 d-flex justify-content-between align-items-center">
+
+                    {% if t.approved %}
+                        <span class="badge bg-success">Approved</span>
+                    {% else %}
+                        <span class="badge bg-warning">Pending</span>
+
+                        <a href="{{ url_for('approve_tutorial', index=loop.index0) }}"
+                           class="btn btn-success btn-sm">
+                            Approve
+                        </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+        <div class="text-center text-muted">
+            <h5>No tutorials submitted yet</h5>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

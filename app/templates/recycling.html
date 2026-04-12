@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Recycling Recommendations{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Recycling Recommendations</h2>
+        <p class="text-muted">Get the best recycling methods for different waste types</p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- FORM -->
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Select Waste Type</label>
+                        <select name="waste_type" class="form-select" required>
+                            <option value="">Choose...</option>
+                            <option value="Plastic">Plastic</option>
+                            <option value="Paper">Paper</option>
+                            <option value="Glass">Glass</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Organic">Organic</option>
+                            <option value="E-Waste">E-Waste</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        Get Recommendation
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- RESULT -->
+        <div class="col-lg-7">
+
+            {% if recommendation %}
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <h4 class="text-success mb-3">
+                    {{ recommendation.waste_type }} Recycling Guide
+                </h4>
+
+                <p><strong>Method:</strong> {{ recommendation.method }}</p>
+
+                <p><strong>Recycling Rate:</strong>
+                    <span class="badge bg-success">
+                        {{ recommendation.recycling_rate }}
+                    </span>
+                </p>
+
+                <p><strong>Facilities:</strong> {{ recommendation.facilities }}</p>
+
+                <!-- Steps -->
+                <h5 class="mt-3">Steps:</h5>
+                <ul class="list-group mb-3">
+                    {% for step in recommendation.steps %}
+                    <li class="list-group-item">♻️ {{ step }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            {% else %}
+            <div class="card shadow-lg border-0 rounded-4 p-5 text-center text-muted">
+                <h5>No recommendation yet</h5>
+                <p>Select a waste type to see recycling methods</p>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+<style>
+.card {
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>

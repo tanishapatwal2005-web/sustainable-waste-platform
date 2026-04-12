@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Sustainable Waste Platform{% endblock %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 85vh;">
+    <div class="row w-100 justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <!-- Heading -->
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-success">Create Account 🌱</h2>
+                    <p class="text-muted">Join us and start your sustainability journey</p>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
+                <!-- Register Form -->
+                <form method="POST">
+
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+                        </div>
+                        <small class="text-muted">Minimum 6 characters</small>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                        <label class="form-label">Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm password" required>
+                        </div>
+                        <small id="password-match" class="text-danger d-none">Passwords do not match</small>
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="terms" required>
+                        <label class="form-check-label text-muted" for="terms">
+                            I agree to the <a href="#" class="text-success">Terms & Conditions</a>
+                        </label>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg rounded-pill">
+                            <i class="fas fa-user-plus me-2"></i> Register
+                        </button>
+                    </div>
+
+                </form>
+
+                <!-- Divider -->
+                <div class="text-center my-3 text-muted">
+                    <small>Already have an account?</small>
+                </div>
+
+                <!-- Login Link -->
+                <div class="text-center">
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-success rounded-pill px-4">
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Password match validation
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirm_password");
+    const matchText = document.getElementById("password-match");
+
+    function checkPasswordMatch() {
+        if (confirmPassword.value === "") {
+            matchText.classList.add("d-none");
+            return;
+        }
+
+        if (password.value !== confirmPassword.value) {
+            matchText.classList.remove("d-none");
+        } else {
+            matchText.classList.add("d-none");
+        }
+    }
+
+    password.addEventListener("keyup", checkPasswordMatch);
+    confirmPassword.addEventListener("keyup", checkPasswordMatch);
+</script>
+
+<style>
+    .card {
+        background: white;
+    }
+
+    .input-group-text {
+        border-radius: 10px 0 0 10px;
+    }
+
+    .form-control {
+        border-radius: 0 10px 10px 0;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #10b981, #059669);
+        border: none;
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Rewards & Badges{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">🏆 Your Rewards & Achievements</h2>
+        <p class="text-muted">Earn points, unlock badges, and become an Eco Champion!</p>
+    </div>
+
+    <!-- Points Card -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 text-center p-4">
+                <h5>Total Points</h5>
+                <h1 class="display-4 text-success fw-bold">
+                    {{ current_user.points if current_user.is_authenticated else 0 }}
+                </h1>
+                <p class="text-muted">Keep contributing to earn more rewards!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Badges Section -->
+    <div class="mb-5">
+        <h4 class="fw-bold mb-4">🎖️ Your Badges</h4>
+
+        <div class="row g-4">
+
+            <!-- Recycler Badge -->
+            <div class="col-md-3">
+                <div class="card text-center shadow-sm p-3 
+                    {% if 'Recycler' in user_badges %}border-success{% else %}opacity-50{% endif %}">
+                    
+                    <div class="fs-1">♻️</div>
+                    <h5 class="mt-2">Recycler</h5>
+                    <p class="small text-muted">Earn 100 points</p>
+
+                    {% if 'Recycler' in user_badges %}
+                        <span class="badge bg-success">Unlocked</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Locked</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Chemist Badge -->
+            <div class="col-md-3">
+                <div class="card text-center shadow-sm p-3 
+                    {% if 'Chemist' in user_badges %}border-info{% else %}opacity-50{% endif %}">
+                    
+                    <div class="fs-1">🧪</div>
+                    <h5 class="mt-2">Chemist</h5>
+                    <p class="small text-muted">Earn 50 points</p>
+
+                    {% if 'Chemist' in user_badges %}
+                        <span class="badge bg-info">Unlocked</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Locked</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Eco Warrior Badge -->
+            <div class="col-md-3">
+                <div class="card text-center shadow-sm p-3 
+                    {% if 'Eco Warrior' in user_badges %}border-warning{% else %}opacity-50{% endif %}">
+                    
+                    <div class="fs-1">🌱</div>
+                    <h5 class="mt-2">Eco Warrior</h5>
+                    <p class="small text-muted">Earn 500 points</p>
+
+                    {% if 'Eco Warrior' in user_badges %}
+                        <span class="badge bg-warning text-dark">Unlocked</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Locked</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Master Badge -->
+            <div class="col-md-3">
+                <div class="card text-center shadow-sm p-3 
+                    {% if current_user.points >= 1000 %}border-danger{% else %}opacity-50{% endif %}">
+                    
+                    <div class="fs-1">👑</div>
+                    <h5 class="mt-2">Master</h5>
+                    <p class="small text-muted">Earn 1000 points</p>
+
+                    {% if current_user.points >= 1000 %}
+                        <span class="badge bg-danger">Unlocked</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Locked</span>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Progress Section -->
+    <div class="mb-5">
+        <h4 class="fw-bold mb-3">📊 Progress to Next Badge</h4>
+
+        {% set next_target = 100 %}
+        {% if current_user.points >= 500 %}
+            {% set next_target = 1000 %}
+        {% elif current_user.points >= 100 %}
+            {% set next_target = 500 %}
+        {% endif %}
+
+        {% set progress = (current_user.points / next_target) * 100 %}
+
+        <div class="progress" style="height: 25px;">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                 role="progressbar"
+                 style="width: {{ progress }}%">
+                {{ current_user.points }}/{{ next_target }}
+            </div>
+        </div>
+
+        <small class="text-muted">Keep going! You're getting closer 🚀</small>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="text-center">
+        <a href="{{ url_for('classify_waste') }}" class="btn btn-success m-2">
+            ♻️ Classify Waste
+        </a>
+
+        <a href="{{ url_for('contribute') }}" class="btn btn-outline-primary m-2">
+            ✍️ Contribute Tutorial
+        </a>
+
+        <a href="{{ url_for('leaderboard') }}" class="btn btn-outline-dark m-2">
+            🏆 View Leaderboard
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

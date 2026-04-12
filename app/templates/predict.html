@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Waste Prediction{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Waste Generation Prediction</h2>
+        <p class="text-muted">Estimate waste production using smart analytics</p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- FORM -->
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Population</label>
+                        <input type="number" name="population" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Households</label>
+                        <input type="number" name="households" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Area Type</label>
+                        <select name="area_type" class="form-select">
+                            <option value="residential">Residential</option>
+                            <option value="urban">Urban</option>
+                            <option value="rural">Rural</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        Predict Waste
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- RESULT -->
+        <div class="col-lg-7">
+
+            {% if prediction %}
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <h4 class="mb-4 text-success">Prediction Results</h4>
+
+                <div class="row text-center mb-4">
+
+                    <div class="col-6 col-md-3">
+                        <h5>{{ prediction.daily_waste_kg }}</h5>
+                        <small>Daily (kg)</small>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <h5>{{ prediction.weekly_waste_kg }}</h5>
+                        <small>Weekly</small>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <h5>{{ prediction.monthly_waste_kg }}</h5>
+                        <small>Monthly</small>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <h5>{{ prediction.yearly_waste_kg }}</h5>
+                        <small>Yearly</small>
+                    </div>
+
+                </div>
+
+                <!-- Chart -->
+                <canvas id="wasteChart"></canvas>
+
+            </div>
+            {% else %}
+            <div class="card shadow-lg border-0 rounded-4 p-5 text-center text-muted">
+                <h5>No prediction yet</h5>
+                <p>Fill the form to see results</p>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% if prediction %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById('wasteChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Daily', 'Weekly', 'Monthly', 'Yearly'],
+        datasets: [{
+            label: 'Waste (kg)',
+            data: [
+                {{ prediction.daily_waste_kg }},
+                {{ prediction.weekly_waste_kg }},
+                {{ prediction.monthly_waste_kg }},
+                {{ prediction.yearly_waste_kg }}
+            ]
+        }]
+    }
+});
+
+</script>
+{% endif %}
+
+<style>
+.card {
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
+
+{% endblock %}

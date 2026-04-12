@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}AI Waste Classifier{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">AI Waste Classifier</h2>
+        <p class="text-muted">Upload an image and let AI classify waste type</p>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <form method="POST" enctype="multipart/form-data">
+
+                    <!-- Image Preview -->
+                    <div class="text-center mb-4">
+                        <img id="preview" src="" 
+                             class="img-fluid rounded-3 d-none"
+                             style="max-height: 250px;">
+                    </div>
+
+                    <!-- File Input -->
+                    <input type="file" name="image" id="imageInput"
+                           class="form-control mb-3" required>
+
+                    <!-- Button -->
+                    <div class="d-grid">
+                        <button class="btn btn-dark btn-lg rounded-3">
+                            Classify Waste
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Section -->
+    {% if result %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg rounded-4 p-4 text-center">
+
+                <h3 class="fw-bold mb-3">Prediction Result</h3>
+
+                <h4 class="text-success fw-bold">
+                    {{ result.class | capitalize }}
+                </h4>
+
+                <p class="text-muted">
+                    Confidence: {{ (result.confidence * 100) | round(2) }}%
+                </p>
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+    // Image Preview
+    const input = document.getElementById("imageInput");
+    const preview = document.getElementById("preview");
+
+    input.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.classList.remove("d-none");
+        }
+    });
+</script>
+
+<style>
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    button:hover {
+        transform: scale(1.02);
+    }
+</style>
+
+{% endblock %}

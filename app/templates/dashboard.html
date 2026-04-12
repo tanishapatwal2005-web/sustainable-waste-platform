@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+```
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h3 class="logo">EcoAI</h3>
+
+    <a href="{{ url_for('dashboard') }}" class="active">
+        <i class="fas fa-home"></i> Dashboard
+    </a>
+
+    <a href="{{ url_for('classify_waste') }}">
+        <i class="fas fa-recycle"></i> Classify
+    </a>
+
+    <a href="{{ url_for('predict') }}">
+        <i class="fas fa-chart-line"></i> Predict
+    </a>
+
+    <a href="{{ url_for('tutorials') }}">
+        <i class="fas fa-book"></i> Tutorials
+    </a>
+
+    <a href="{{ url_for('leaderboard') }}">
+        <i class="fas fa-trophy"></i> Leaderboard
+    </a>
+
+    {% if current_user.is_admin() %}
+    <a href="{{ url_for('admin_tutorials') }}">
+        <i class="fas fa-user-shield"></i> Admin
+    </a>
+    {% endif %}
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <h4>Dashboard</h4>
+        <div>
+            <span>{{ current_user.username }}</span>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+
+        <div class="card stat-card">
+            <h5>Points</h5>
+            <h2>{{ stats.points_earned }}</h2>
+        </div>
+
+        <div class="card stat-card">
+            <h5>CO₂ Saved</h5>
+            <h2>{{ stats.co2_saved }}</h2>
+        </div>
+
+        <div class="card stat-card">
+            <h5>Actions</h5>
+            <h2>+5 Daily</h2>
+        </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+        <a href="{{ url_for('classify_waste') }}" class="btn btn-primary">
+            Classify Waste
+        </a>
+
+        <a href="{{ url_for('upload_tutorial') }}" class="btn btn-dark">
+            Upload Tutorial
+        </a>
+    </div>
+
+</div>
+```
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

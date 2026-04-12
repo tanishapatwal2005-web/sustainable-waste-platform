@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Reports & Analytics{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Reports & Analytics</h2>
+        <p class="text-muted">Generate sustainability reports and track your environmental impact</p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- REPORT FORM -->
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <form method="POST" action="{{ url_for('generate_report') }}">
+
+                    <div class="mb-3">
+                        <label class="form-label">Report Type</label>
+                        <select name="report_type" class="form-select" required>
+                            <option value="waste">Waste Report</option>
+                            <option value="activity">User Activity</option>
+                            <option value="chemistry">Chemical Analysis</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" name="start_date" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">End Date</label>
+                        <input type="date" name="end_date" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Format</label>
+                        <select name="format" class="form-select">
+                            <option value="pdf">PDF</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        Generate Report
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- ANALYTICS -->
+        <div class="col-lg-7">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+
+                <h4 class="mb-4 text-success">Your Impact Overview</h4>
+
+                <!-- Stats -->
+                <div class="row text-center mb-4">
+
+                    <div class="col-6 col-md-3">
+                        <h5>{{ stats.total_waste_recycled if stats else 0 }}</h5>
+                        <small>Waste Recycled (kg)</small>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <h5>{{ stats.co2_saved if stats else 0 }}</h5>
+                        <small>CO₂ Saved</small>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <h5>{{ stats.points_earned if stats else 0 }}</h5>
+                        <small>Points</small>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <h5>★</h5>
+                        <small>Eco Rating</small>
+                    </div>
+
+                </div>
+
+                <!-- Chart -->
+                <canvas id="reportChart"></canvas>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('reportChart');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Waste Recycled (kg)',
+            data: [5, 10, 8, 15, 12, 18],
+            fill: true,
+            tension: 0.4
+        }]
+    }
+});
+</script>
+
+<style>
+.card {
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
+
+{% endblock %}
