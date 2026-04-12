@@ -28,7 +28,6 @@
             transition: all 0.3s ease;
         }
 
-        /* 🌿 GLASS NAVBAR */
         .navbar {
             backdrop-filter: blur(15px);
             background: rgba(255,255,255,0.7);
@@ -61,7 +60,6 @@
             width: 100%;
         }
 
-        /* 🌟 BUTTON */
         .btn-success {
             background: linear-gradient(135deg, #10b981, #059669);
             border: none;
@@ -73,7 +71,6 @@
             box-shadow: 0 10px 25px rgba(16,185,129,0.3);
         }
 
-        /* 🌙 DARK MODE */
         body.dark-mode {
             background: #0f172a;
             color: #e2e8f0;
@@ -87,7 +84,6 @@
             color: #e2e8f0 !important;
         }
 
-        /* 🌊 FLOATING ICONS */
         .eco-icons i {
             position: fixed;
             font-size: 40px;
@@ -105,7 +101,6 @@
             100% { transform: translateY(0); }
         }
 
-        /* FOOTER */
         footer {
             background: #111;
             color: #aaa;
@@ -117,19 +112,16 @@
 
 <body>
 
-<!-- 🌿 FLOATING ICONS -->
 <div class="eco-icons">
     <i class="fas fa-leaf"></i>
     <i class="fas fa-recycle"></i>
     <i class="fas fa-seedling"></i>
 </div>
 
-<!-- 🌱 NAVBAR -->
 <nav class="navbar navbar-expand-lg premium-navbar sticky-top">
     <div class="container">
 
-        <!-- LOGO -->
-        <a class="navbar-brand logo-text" href="{{ url_for('index') }}">
+        <a class="navbar-brand logo-text" href="{{ url_for('home') }}">
             🌱 EcoPlatform
         </a>
 
@@ -139,11 +131,10 @@
 
         <div class="collapse navbar-collapse" id="navMenu">
 
-            <!-- LEFT MENU -->
             <ul class="navbar-nav me-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint=='index' %}active-link{% endif %}"
+                    <a class="nav-link {% if request.endpoint=='home' %}active-link{% endif %}"
                        href="{{ url_for('home') }}">Home</a>
                 </li>
 
@@ -174,7 +165,6 @@
 
             </ul>
 
-            <!-- CENTER BUTTON -->
             {% if current_user.is_authenticated %}
             <div class="mx-3">
                 <a class="btn upload-btn"
@@ -184,7 +174,6 @@
             </div>
             {% endif %}
 
-            <!-- RIGHT MENU -->
             <ul class="navbar-nav align-items-center">
 
                 <li class="nav-item">
@@ -203,7 +192,6 @@
                 </li>
                 {% endif %}
 
-                <!-- DARK MODE -->
                 <li class="nav-item mx-2">
                     <div class="dark-toggle" onclick="toggleDarkMode()">
                         <div class="toggle-circle"></div>
@@ -247,7 +235,6 @@
     </div>
 </nav>
 
-<!-- FLASH -->
 <div class="container mt-3">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
@@ -259,12 +246,10 @@
     {% endwith %}
 </div>
 
-<!-- MAIN -->
 <main>
     {% block content %}{% endblock %}
 </main>
 
-<!-- FOOTER -->
 <footer class="mt-5 py-4 text-center">
     <div class="container">
         <p>© 2026 EcoPlatform 🌱</p>
@@ -272,10 +257,8 @@
     </div>
 </footer>
 
-<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init({ duration: 1000, once: true });
@@ -292,19 +275,10 @@
 
 {% block extra_js %}{% endblock %}
 
-
-<!-- ================= CHATBOT ================= -->
-
-<!-- CHAT ICON -->
 <div class="chat-toggle" onclick="toggleChat()">
     <img src="{{ url_for('static', filename='images/chatbot.png') }}" alt="Chatbot">
 </div>
 
-<!-- ================= CHATBOT ================= -->
-
-
-
-<!-- CHAT BOX -->
 <div class="chat-container" id="chatContainer">
 
     <div class="chat-header">
@@ -333,6 +307,7 @@
     </div>
 
 </div>
+
 <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
 
 </body>
