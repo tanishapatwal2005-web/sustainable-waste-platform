@@ -119,7 +119,7 @@ def create_app():
         return render_template('predict.html', result=result)
 
     # ---------- AI CLASSIFY ----------
-    from ml_model import predict_image
+    # from ml_model import predict_image
 
     @app.route('/classify', methods=['GET','POST'])
     def classify():
