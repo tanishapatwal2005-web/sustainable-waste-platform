@@ -15,12 +15,13 @@ def create_app():
     login_manager.login_view = 'login'
     login_manager.anonymous_user = DummyUser
 
-    # 🔥 ADD THIS (VERY IMPORTANT)
+    # ✅ REQUIRED
     @login_manager.user_loader
     def load_user(user_id):
         return None
 
     # ================= ROUTES ================= #
+
     @app.route('/')
     def home():
         stats = {
@@ -28,8 +29,7 @@ def create_app():
             "carbon_saved": 50,
             "active_users": 10
         }
-    return render_template('sustainability_dashboard.html', stats=stats)
-
+        return render_template('sustainability_dashboard.html', stats=stats)  # ✅ FIXED
 
     @app.route('/classify')
     def classify_waste():
