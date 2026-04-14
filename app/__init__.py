@@ -21,15 +21,16 @@ def create_app():
         return None
 
     # ================= ROUTES ================= #
-
     @app.route('/')
     def home():
-      stats = {
-        "total_waste_recycled": 120,
-        "carbon_saved": 50,
-        "active_users": 10
-    }
+        stats = {
+            "total_waste_recycled": 120,
+            "carbon_saved": 50,
+            "active_users": 10
+        }
     return render_template('sustainability_dashboard.html', stats=stats)
+
+
     @app.route('/classify')
     def classify_waste():
         return "<h2>Classify Waste Page</h2>"
