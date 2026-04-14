@@ -1,23 +1,24 @@
 from flask import Flask, render_template
 from flask_login import LoginManager, AnonymousUserMixin
 
-# ✅ Dummy user (prevents crash if no login system yet)
 class DummyUser(AnonymousUserMixin):
     def is_admin(self):
         return False
 
 def create_app():
-    # ✅ FIX TEMPLATE PATH
     app = Flask(__name__, template_folder='templates')
 
-    # ✅ SECRET KEY (required)
     app.config['SECRET_KEY'] = 'super-secret-key'
 
-    # ✅ INIT LOGIN MANAGER
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'login'
     login_manager.anonymous_user = DummyUser
+
+    # 🔥 ADD THIS (VERY IMPORTANT)
+    @login_manager.user_loader
+    def load_user(user_id):
+        return None
 
     # ================= ROUTES ================= #
 
