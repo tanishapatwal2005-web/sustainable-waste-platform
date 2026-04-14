@@ -27,56 +27,56 @@ def create_app():
             "total_waste_recycled": 120,
             "carbon_saved": 50,
             "active_users": 10,
-            "points_earned": 600   # ✅ important
+            "points_earned": 600
         }
         return render_template('sustainability_dashboard.html', stats=stats)
 
     @app.route('/classify')
     def classify_waste():
-        return "<h2>Classify Waste Page</h2>"
+        return render_template('classify.html')
 
     @app.route('/predict')
     def predict():
-        return "<h2>Prediction Page</h2>"
+        return render_template('predict.html')
 
     @app.route('/atom')
     def atom_economy():
-        return "<h2>Atom Economy Page</h2>"
+        return render_template('atom_economy.html')
 
     @app.route('/leaderboard')
     def leaderboard():
-        return "<h2>Leaderboard Page</h2>"
+        return render_template('leaderboard.html')
 
     @app.route('/tutorials')
     def tutorials():
-        return "<h2>Tutorials Page</h2>"
+        return render_template('tutorials.html')
 
     @app.route('/community')
     def community_tutorials():
-        return "<h2>Community Tutorials</h2>"
+        return render_template('community_tutorials.html')
 
     @app.route('/upload')
     def upload_tutorial():
-        return "<h2>Upload Tutorial</h2>"
+        return render_template('upload_tutorial.html')
 
     @app.route('/admin')
     def admin_tutorials():
-        return "<h2>Admin Panel</h2>"
+        return render_template('admin_tutorials.html')
 
     @app.route('/profile')
     def profile():
-        return "<h2>User Profile</h2>"
+        return render_template('profile.html')
 
     @app.route('/login')
     def login():
-        return "<h2>Login Page</h2>"
+        return render_template('login.html')
 
     @app.route('/register')
     def register():
-        return "<h2>Register Page</h2>"
+        return render_template('register.html')
 
     @app.route('/logout')
     def logout():
-        return "<h2>Logout</h2>"
+        return render_template('logout.html')
 
     return app
