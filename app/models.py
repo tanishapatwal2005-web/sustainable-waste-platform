@@ -18,3 +18,4 @@ class Tutorial(db.Model):
     video = db.Column(db.String(500))
     user = db.Column(db.String(100))
     approved = db.Column(db.Boolean, default=False)
+    from flask_login import UserMixin
