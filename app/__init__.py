@@ -24,7 +24,7 @@ def create_app():
 
     @app.route('/')
     def home():
-    stats = {
+      stats = {
         "total_waste_recycled": 120,
         "carbon_saved": 50,
         "active_users": 10
