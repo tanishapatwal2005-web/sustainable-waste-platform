@@ -15,23 +15,21 @@ def create_app():
     login_manager.login_view = 'login'
     login_manager.anonymous_user = DummyUser
 
-    # ✅ REQUIRED
     @login_manager.user_loader
     def load_user(user_id):
         return None
 
     # ================= ROUTES ================= #
+
     @app.route('/')
     def home():
-       stats = {
-        "total_waste_recycled": 120,
-        "carbon_saved": 50,
-        "active_users": 10,
-        "points_earned": 600   # ✅ ADD THIS (important)
-    }
-    return render_template('sustainability_dashboard.html', stats=stats)
-
-   
+        stats = {
+            "total_waste_recycled": 120,
+            "carbon_saved": 50,
+            "active_users": 10,
+            "points_earned": 600   # ✅ important
+        }
+        return render_template('sustainability_dashboard.html', stats=stats)
 
     @app.route('/classify')
     def classify_waste():
