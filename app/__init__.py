@@ -8,7 +8,7 @@ class DummyUser(AnonymousUserMixin):
 
 def create_app():
     # ✅ FIX TEMPLATE PATH
-    app = Flask(__name__, template_folder='app/templates')
+    app = Flask(__name__, template_folder='../templates')
 
     # ✅ SECRET KEY (required)
     app.config['SECRET_KEY'] = 'super-secret-key'
